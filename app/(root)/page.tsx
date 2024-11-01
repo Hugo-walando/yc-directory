@@ -1,8 +1,7 @@
 import PostCard, { PostCardType } from '@/components/PostCard';
 import SearchForm from '../../components/SearchForm';
 import { POSTS_QUERY } from '@/sanity/lib/queries';
-import { client } from '@/sanity/lib/client';
-
+import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 export default async function Home({
   searchParams,
 }: {
@@ -11,24 +10,10 @@ export default async function Home({
   }>;
 }) {
   const query = (await searchParams).query;
-
-  const posts = await client.fetch(POSTS_QUERY);
+  const params = { search: query || null };
+  const { data: posts } = await sanityFetch({ query: POSTS_QUERY, params });
 
   console.log(JSON.stringify(posts, null, 2));
-
-  // const posts = [
-  //   {
-  //     _createdAt: new Date(),
-  //     views: 55,
-  //     author: { _id: 1 },
-  //     _id: 1,
-  //     description: 'this is a description.',
-  //     image:
-  //       'https://tagageek.com/wp-content/uploads/2024/09/We-Robot-10-10-Tesla-Invite-au-Devoilement-de-sa-Robotaxi.webp',
-  //     category: 'Robots',
-  //     title: 'We Robots',
-  //   },
-  // ];
 
   return (
     <>
@@ -55,6 +40,7 @@ export default async function Home({
           )}
         </ul>
       </section>
+      <SanityLive />
     </>
   );
 }

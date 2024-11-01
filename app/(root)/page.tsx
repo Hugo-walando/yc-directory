@@ -1,4 +1,4 @@
-import PostCard from '@/components/PostCard';
+import PostCard, { PostCardType } from '@/components/PostCard';
 import SearchForm from '../../components/SearchForm';
 import { POSTS_QUERY } from '@/sanity/lib/queries';
 import { client } from '@/sanity/lib/client';
@@ -47,7 +47,7 @@ export default async function Home({
 
         <ul className='mt-7 card_grid'>
           {posts?.length > 0 ? (
-            posts.map((post: PostCardType, index: number) => (
+            posts.map((post: PostCardType) => (
               <PostCard key={post?._id} post={post} />
             ))
           ) : (
